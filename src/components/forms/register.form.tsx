@@ -3,16 +3,12 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { RegisterSchema } from '../../schema/auth.schema'
 import type { IRegisterData } from '../../types/auth.types'
 import Input from '../common/inputs/input'
-import { useState } from 'react'
 import { register } from '../../api/auth.api'
 import { useNavigate } from 'react-router'
+import { useMutation } from "@tanstack/react-query";
+import toast from 'react-hot-toast'
 
 const RegisterForm = () => {
-
-  // State Management
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
 
   const navigate = useNavigate()
 
@@ -28,27 +24,26 @@ const RegisterForm = () => {
       mode: "all"
     })
 
+  const {mutate, isPending} = useMutation({
+    mutationFn: register,
+    onSuccess: (response) => {
+      console.log(response)
+      toast.success(response.message ?? 'Registration Success')
+      // sessionStorage.setItem('token', response.data)
+      localStorage.setItem('token', JSON.stringify(response.data.data))
+
+      navigate("/login")
+    },
+    onError: (error) => {
+      console.log(error)
+      toast.error(error?.message ?? 'Registration Failed')
+    },
+    mutationKey: ['register_mutation']
+  })
+
   const onSubmit = async(data: IRegisterData) => {
-    try {
-          setLoading(true);
-          setError(null);
-          setSuccess(false);
-
-          console.log(data);
-          await register(data);
-          setSuccess(true) // Registration success
-
-          // Redirect after a short delay
-          setTimeout(() => {
-            navigate("/login") // redirect to login page
-          }, 1500)
-
-        } catch (error: any) {
-          setError(error?.response?.data?.message || "Registration Failed!");
-        } finally {
-          setLoading(false);
-        }
-  }
+    mutate(data)
+  };
 
   return (
     <div>
@@ -103,30 +98,14 @@ const RegisterForm = () => {
               required={false}
             />
 
-            {/* Error Message */}
-            {error && (
-              <p className="text-red-500 text-sm font-medium">{error}</p>
-            )}
-
-            {/* Success Message */}
-            {success && (
-              <p className="text-green-500 text-sm font-medium">
-                Registration Successful. Redirecting to login...
-              </p>
-            )}
-
             {/* Register Button */}
             <div className="w-full mt-2">
               <button
                 type="submit"
-                disabled={loading}
-                className={`cursor-pointer w-full bg-gradient-to-r from-indigo-500 to-blue-600 py-3 rounded-md text-white font-semibold text-lg hover:from-indigo-400 hover:to-blue-500 transition-all duration-300 shadow-md
-                  ${loading
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-400 hover:to-blue-500"
-                }`}
+                disabled={isPending}
+                className="cursor-pointer w-full bg-gradient-to-r from-indigo-500 to-blue-600 py-3 rounded-md text-white font-semibold text-lg hover:from-indigo-400 hover:to-blue-500 transition-all duration-300 shadow-md"
               >
-                {loading ? "Registering..." : "Register"}
+                Register
               </button>
             </div>
 
