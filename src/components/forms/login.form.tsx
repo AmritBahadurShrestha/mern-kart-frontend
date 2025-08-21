@@ -7,8 +7,8 @@ import { login } from "../../api/auth.api";
 import { useState } from "react";
 
 const LoginForm = () => {
-  // State
 
+  // State
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -30,9 +30,11 @@ const LoginForm = () => {
 
       console.log(data);
       await login(data);
+      setSuccess(true) // ✅ login success
+
     } catch (error: any) {
       console.log(error);
-      setError(error?.response?.data?.message || "Login failed!");
+      setError(error?.response?.data?.message || "Login Failed!");
     } finally {
       setLoading(false);
     }
@@ -70,7 +72,7 @@ const LoginForm = () => {
             {/* Success Message */}
             {success && (
               <p className="text-green-500 text-sm font-medium">
-                Login successful 🎉
+                Login Successful
               </p>
             )}
 
@@ -79,13 +81,13 @@ const LoginForm = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className={`cursor-pointer w-full bg-gradient-to-r from-indigo-500 to-blue-600 py-3 rounded-md text-white font-semibold text-lg hover:from-indigo-400 hover:to-blue-500 transition-all duration-300 shadow-md ${
-                  loading
+                className={`cursor-pointer w-full bg-gradient-to-r from-indigo-500 to-blue-600 py-3 rounded-md text-white font-semibold text-lg hover:from-indigo-400 hover:to-blue-500 transition-all duration-300 shadow-md
+                  ${ loading
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-400 hover:to-blue-500"
                 }`}
               >
-                {loading ? "Signing in..." : "Sign In"}
+                {loading ? "Signing In..." : "Sign In"}
               </button>
             </div>
           </div>
