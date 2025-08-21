@@ -10,6 +10,7 @@ import PageNotFound from './pages/page-not-found'
 import AboutUs from './pages/about-us'
 import PrivacyPolicy from './pages/privacy-policy'
 import Footer from './components/footer/footer'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
 
@@ -33,6 +34,11 @@ function App() {
           <Route path='/product/:id' element= { <DynamicPage/> }/>
         </Routes>
       </Router>
+
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
 
     </main>
   )

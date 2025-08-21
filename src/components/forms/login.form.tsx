@@ -4,14 +4,13 @@ import { LoginSchema } from "../../schema/auth.schema";
 import type { ILoginData } from "../../types/auth.types";
 import Input from "../common/inputs/input";
 import { login } from "../../api/auth.api";
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import toast from 'react-hot-toast'
+import { useNavigate } from "react-router";
 
 const LoginForm = () => {
 
-  // State
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
+  const navigate = useNavigate()
 
   const methods = useForm({
     defaultValues: {
@@ -22,22 +21,25 @@ const LoginForm = () => {
     mode: "all",
   });
 
-  const onSubmit = async (data: ILoginData) => {
-    try {
-      setLoading(true);
-      setError(null);
-      setSuccess(false);
+  const {mutate, isPending} = useMutation({
+    mutationFn: login,
+    onSuccess: (response) => {
+      console.log(response)
+      toast.success(response.message ?? 'Login Success')
+      // sessionStorage.setItem('token', response.data)
+      localStorage.setItem('token', JSON.stringify(response.data.data))
 
-      console.log(data);
-      await login(data);
-      setSuccess(true) // ✅ login success
+      navigate("/")
+    },
+    onError: (error) => {
+      console.log(error)
+      toast.error(error?.message ?? 'Login Failed')
+    },
+    mutationKey: ['login_mutation']
+  })
 
-    } catch (error: any) {
-      console.log(error);
-      setError(error?.response?.data?.message || "Login Failed!");
-    } finally {
-      setLoading(false);
-    }
+  const onSubmit = (data: ILoginData) => {
+    mutate(data)
   };
 
   return (
@@ -64,30 +66,14 @@ const LoginForm = () => {
               required
             />
 
-            {/* Error Message */}
-            {error && (
-              <p className="text-red-500 text-sm font-medium">{error}</p>
-            )}
-
-            {/* Success Message */}
-            {success && (
-              <p className="text-green-500 text-sm font-medium">
-                Login Successful
-              </p>
-            )}
-
             {/* Sign In Button */}
             <div className="w-full mt-2">
               <button
                 type="submit"
-                disabled={loading}
-                className={`cursor-pointer w-full bg-gradient-to-r from-indigo-500 to-blue-600 py-3 rounded-md text-white font-semibold text-lg hover:from-indigo-400 hover:to-blue-500 transition-all duration-300 shadow-md
-                  ${ loading
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-400 hover:to-blue-500"
-                }`}
+                disabled= {isPending}
+                className="cursor-pointer w-full bg-gradient-to-r from-indigo-500 to-blue-600 py-3 rounded-md text-white font-semibold text-lg hover:from-indigo-400 hover:to-blue-500 transition-all duration-300 shadow-md disabled: bg-amber-600 disabled:cursor-not-allowed"
               >
-                {loading ? "Signing In..." : "Sign In"}
+                Sign In
               </button>
             </div>
           </div>

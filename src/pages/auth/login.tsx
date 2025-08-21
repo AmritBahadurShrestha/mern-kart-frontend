@@ -1,3 +1,4 @@
+
 import LoginForm from '../../components/forms/login.form'
 
 const Login = () => {
@@ -7,7 +8,7 @@ const Login = () => {
         <h1 className="text-3xl font-bold text-gray-800 text-center">Login</h1>
 
         {/* LogIn Form */}
-        <LoginForm/>
+          <LoginForm/>
 
         {/* Link To SignUp */}
         <div className="py-4">
