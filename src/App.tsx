@@ -22,16 +22,16 @@ function App() {
 
       <Router>
         <Routes>
+          <Route path='/' element= { <HomePage/> }/>
           <Route path='/login' element= { <Login/> }/>
           <Route path='/register' element= { <Register/> }/>
-          <Route path='*' element= {<PageNotFound/>}/>
-          <Route path='/' element= { <HomePage/> }/>
           <Route path='/products' element= { <ProductsPage/> }/>
           <Route path='/about-us' element= { <AboutUs/> }/>
           <Route path='/contact-us' element= { <ContactUs/> }/>
           <Route path='/privacy-policy' element= {<PrivacyPolicy/> }/>
           <Route path='/footer' element= {<Footer/> }/>
           <Route path='/product/:id' element= { <DynamicPage/> }/>
+          <Route path='*' element= {<PageNotFound/>}/>
         </Routes>
       </Router>
 
