@@ -1,11 +1,12 @@
-import axios from "axios"
+import api from './'
 import type { ILoginData, IRegisterData } from "../types/auth.types"
+
 
 export const login = async(data: ILoginData) => {
 
     try {
         
-        const response = await axios.post('https://mern-kart-mn96.onrender.com/api/auth/login', data)
+        const response = await api.post(`/auth/login`, data)
 
         console.log(response)
         return response.data
@@ -20,7 +21,7 @@ export const register = async(data: IRegisterData) => {
 
     try {
         
-        const response = await axios.post('https://mern-kart-mn96.onrender.com/api/auth/register', data)
+        const response = await api.post(`/auth/register`, data)
 
         console.log(response)
         return response.data
