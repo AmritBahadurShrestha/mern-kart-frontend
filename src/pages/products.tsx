@@ -1,9 +1,7 @@
-import Header from "../components/header"
 
 const ProductsPage = () => {
   return (
     <main className="min-h-screen">
-      <Header/>
 
       <div>
         <h1 className="text-center">Product Page</h1>

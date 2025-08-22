@@ -1,11 +1,9 @@
-import Header from "../components/header";
+
 import { Link } from "react-router";
 
 const PageNotFound = () => {
   return (
     <main className="flex flex-col min-h-screen text-gray-800">
-      {/* Header stays unchanged */}
-      <Header />
 
       {/* Full-height gradient content that reaches footer */}
       <div className="flex flex-col items-center justify-center flex-1 w-full px-4 text-center bg-gradient-to-br from-blue-600 via-indigo-500 to-purple-600 py-20">

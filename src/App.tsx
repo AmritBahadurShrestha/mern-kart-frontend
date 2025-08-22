@@ -11,6 +11,7 @@ import AboutUs from './pages/about-us'
 import PrivacyPolicy from './pages/privacy-policy'
 import Footer from './components/footer/footer'
 import { Toaster } from 'react-hot-toast'
+import ClientLayout from './layouts/client.layout'
 
 function App() {
 
@@ -22,14 +23,19 @@ function App() {
 
       <Router>
         <Routes>
-          <Route path='/' element= { <HomePage/> }/>
+
           <Route path='/login' element= { <Login/> }/>
           <Route path='/register' element= { <Register/> }/>
-          <Route path='/products' element= { <ProductsPage/> }/>
-          <Route path='/about-us' element= { <AboutUs/> }/>
-          <Route path='/contact-us' element= { <ContactUs/> }/>
-          <Route path='/privacy-policy' element= {<PrivacyPolicy/> }/>
-          <Route path='/footer' element= {<Footer/> }/>
+
+          <Route path='/' element= { <ClientLayout/> }>
+            <Route path='/' element= { <HomePage/> }/>
+            <Route path='/products' element= { <ProductsPage/> }/>
+            <Route path='/about-us' element= { <AboutUs/> }/>
+            <Route path='/contact-us' element= { <ContactUs/> }/>
+            <Route path='/privacy-policy' element= {<PrivacyPolicy/> }/>
+            <Route path='/footer' element= {<Footer/> }/>
+          </Route>
+
           <Route path='/product/:id' element= { <DynamicPage/> }/>
           <Route path='*' element= {<PageNotFound/>}/>
         </Routes>

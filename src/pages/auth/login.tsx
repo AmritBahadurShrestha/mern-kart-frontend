@@ -14,9 +14,9 @@ const Login = () => {
         {/* Link To SignUp */}
         <div className="py-4">
           <p className="text-center">
-            Don&apos;t have an account ? <Link to={'/register'}>
-            <span className="text-violet-700 cursor-pointer">Sign Up</span>
-            </Link>
+            Don&apos;t have an account ?
+            <span className="text-violet-700 cursor-pointer"> <Link to={'/register'}>Sign Up  </Link></span>
+
           </p>
         </div>
 

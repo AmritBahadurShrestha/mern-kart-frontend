@@ -1,9 +1,8 @@
-import Header from "../components/header";
+
 
 const PrivacyPolicy = () => {
   return (
     <main className="flex flex-col min-h-screen bg-gray-50 text-gray-800">
-      <Header />
 
       {/* Hero */}
       <section className="relative bg-gradient-to-r from-blue-600 via-indigo-700 to-purple-700 py-20 text-white">
