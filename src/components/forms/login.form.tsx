@@ -27,7 +27,7 @@ const LoginForm = () => {
       console.log(response)
       toast.success(response.message ?? 'Login Success')
       // sessionStorage.setItem('token', response.data)
-      localStorage.setItem('token', JSON.stringify(response.data.data))
+      localStorage.setItem('user', JSON.stringify(response.data.data))
 
       navigate("/")
     },
