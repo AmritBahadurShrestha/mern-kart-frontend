@@ -30,6 +30,7 @@ const CategoryList = () => {
          data?.data.map((category: ICategoryResponse) => <CategoryCard category={category}/>)
         }
       </div> :
+      
       <div>
         <p>No Category Found</p>
       </div>
