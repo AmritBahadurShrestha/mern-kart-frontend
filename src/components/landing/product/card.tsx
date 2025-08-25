@@ -1,36 +1,43 @@
-import type { IProductResponse } from "../../../types/products.types";
+import type { IProduct } from "../../../types/products.types";
 
 interface IProps {
-  product: IProductResponse;
+  product: IProduct;
 }
 
 const ProductCard: React.FC<IProps> = ({ product }) => {
   return (
-    <div className="max-w-sm w-full bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer overflow-hidden border border-gray-200">
+    <div className="max-w-md w-full bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer overflow-hidden border border-gray-200">
       {/* Product Image */}
-      <div className="h-48 w-full overflow-hidden">
+      <div className="h-64 w-full overflow-hidden">
         <img
-          src={product.image}
-          alt={product.title}
-          className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
+          src={product.cover_image.path}
+          alt={product.name}
+          className="w-full h-full object-cover"
         />
       </div>
 
       {/* Product Info */}
-      <div className="p-4">
-        <h3 className="text-lg font-semibold text-gray-800 truncate">
-          {product.title}
+      <div className="p-6">
+        <h3 className="text-xl font-semibold text-gray-800 truncate">
+          {product.name}
         </h3>
-        <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+        <p className="text-base text-gray-600 mt-2 line-clamp-3">
           {product.description}
         </p>
 
-        {/* Price + Button */}
-        <div className="flex items-center justify-between mt-4">
-          <span className="text-xl font-bold text-indigo-600">
-            ${product.price}
+        {/* Price */}
+        <div className="mt-4">
+          <span className="text-2xl font-bold text-indigo-600">
+            NPR {product.price}
           </span>
-          <button className="px-3 py-1.5 text-sm font-medium bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+        </div>
+
+        {/* Buttons */}
+        <div className="flex items-center justify-between mt-5">
+          <button className="px-4 py-2 text-sm font-medium bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition-colors">
+            View Details
+          </button>
+          <button className="px-4 py-2 text-sm font-medium bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
             Add to Cart
           </button>
         </div>

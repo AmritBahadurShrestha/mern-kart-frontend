@@ -1,4 +1,5 @@
 import ComponentTitle from "../common/title-component"
+import ProductList from "./product"
 
 const FeaturedProducts = () => {
   return (
@@ -8,6 +9,11 @@ const FeaturedProducts = () => {
           sub_title='Limited Stock Shop Featured Favorites Today'
           link='#'
         />
+
+        <div>
+          <ProductList/>
+        </div>
+
     </div>
   )
 }
