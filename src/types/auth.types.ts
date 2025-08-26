@@ -1,4 +1,7 @@
+import type { Role } from "./enum";
 import type { IResponse } from "./global.types";
+import type { IProduct } from "./products.types";
+
 
 export interface ILoginData {
   email: string;
@@ -17,6 +20,8 @@ export interface IUser extends IResponse {
   first_name: string;
   last_name: string;
   email: string;
+  role: Role
   password: string;
   phone_number?: string;
+  wish_list: string[] | IProduct[]
 }
