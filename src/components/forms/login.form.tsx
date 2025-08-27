@@ -7,9 +7,11 @@ import { login } from "../../api/auth.api";
 import { useMutation } from "@tanstack/react-query";
 import toast from 'react-hot-toast'
 import { useNavigate } from "react-router";
+import { useAuth } from "../../context/auth.context";
 
 const LoginForm = () => {
 
+  const { setUser, setToken} = useAuth()
   const navigate = useNavigate()
 
   const methods = useForm({
@@ -28,6 +30,8 @@ const LoginForm = () => {
       toast.success(response.message ?? 'Login Success')
       // sessionStorage.setItem('token', response.data)
       localStorage.setItem('user', JSON.stringify(response.data.data))
+      setUser(response.data.data)
+      setToken(response.data.access_token)
 
       navigate("/")
     },
