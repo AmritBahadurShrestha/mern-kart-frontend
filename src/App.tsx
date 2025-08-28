@@ -9,9 +9,9 @@ import ProductsPage from './pages/products'
 import PageNotFound from './pages/page-not-found'
 import AboutUs from './pages/about-us'
 import PrivacyPolicy from './pages/privacy-policy'
-import Footer from './components/footer/footer'
 import { Toaster } from 'react-hot-toast'
 import ClientLayout from './layouts/client.layout'
+import WishListPage from './pages/wishlist'
 
 function App() {
 
@@ -33,11 +33,13 @@ function App() {
             <Route path='/about-us' element= { <AboutUs/> }/>
             <Route path='/contact-us' element= { <ContactUs/> }/>
             <Route path='/privacy-policy' element= {<PrivacyPolicy/> }/>
-            <Route path='/footer' element= {<Footer/> }/>
+            <Route path='/wishlist' element= {<WishListPage/> }/>
+            
+            <Route path='*' element= {<PageNotFound/>}/>
           </Route>
 
           <Route path='/product/:id' element= { <DynamicPage/> }/>
-          <Route path='*' element= {<PageNotFound/>}/>
+          
         </Routes>
       </Router>
 
