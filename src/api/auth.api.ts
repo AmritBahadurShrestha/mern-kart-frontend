@@ -46,3 +46,16 @@ export const logout = async() => {
         throw error.response.data
     }
 }
+
+export const get_profile = async() => {
+
+    try {
+        
+        const response = await api.get('/auth/me')
+        return response.data
+
+    } catch (error: any) {
+        console.log(error)
+        throw error.response.data
+    }
+}

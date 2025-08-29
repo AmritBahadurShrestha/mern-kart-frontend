@@ -1,5 +1,7 @@
 import ComponentTitle from "../components/common/title-component"
+import { WithAuth } from "../components/hoc/with-auth.hoc"
 import WishList from "../components/wishlist/list"
+import { Role } from "../types/enum"
 
 
 const WishListPage = () => {
@@ -18,4 +20,6 @@ const WishListPage = () => {
   )
 }
 
-export default WishListPage
+const Page = WithAuth(WishListPage, [Role.USER])
+
+export default Page
