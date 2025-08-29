@@ -11,7 +11,7 @@ import { logout } from "../../api/auth.api";
 const IconSection = () => {
 
     // const user = JSON.parse(localStorage.getItem('user') as string) ?? null
-    const {user, setUser, setToken} = useAuth()
+    const {user, setUser} = useAuth()
     const navigate = useNavigate()
 
     const {mutate, isPending} = useMutation({
@@ -20,7 +20,7 @@ const IconSection = () => {
             localStorage.removeItem('user')
             localStorage.removeItem('token')
             setUser(null)
-            setToken(null)
+            // setToken(null)
             navigate('/login', {replace: true})
             toast.success(data.message || 'Logged Out')
         },
