@@ -11,10 +11,8 @@ const WishListPage = () => {
         title = 'Wishlist'
         sub_title= 'Items in my wishlist'
         />
-        // Product List
         <div>
             <WishList/>
-
         </div>
     </main>
   )

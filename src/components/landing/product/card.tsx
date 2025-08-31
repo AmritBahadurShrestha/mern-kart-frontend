@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { add_to_wishlist } from "../../../api/wishlist.api";
 import type { IProduct } from "../../../types/products.types";
 import toast from "react-hot-toast";
@@ -9,11 +9,16 @@ interface IProps {
 
 const ProductCard: React.FC<IProps> = ({ product }) => {
 
+  const queryClient = useQueryClient();
+
   // Add to wishlist Mutation
   const {mutate, isPending} = useMutation({
     mutationFn: add_to_wishlist,
     onSuccess:(response) => {
       toast.success(response.message)
+      
+      // Refresh wishlist data
+      queryClient.invalidateQueries({ queryKey: ["get_wishlist"] });
     },
     onError: (error) => {
       toast.error(error.message)
