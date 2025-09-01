@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { add_to_wishlist } from "../../../api/wishlist.api";
 import type { IProduct } from "../../../types/products.types";
 import toast from "react-hot-toast";
+import { Link } from "react-router";
 
 interface IProps {
   product: IProduct;
@@ -65,9 +66,11 @@ const ProductCard: React.FC<IProps> = ({ product }) => {
 
         {/* Buttons */}
         <div className="flex items-center justify-between mt-5">
+          <Link to = {`/product/${product?._id}?name=${product?.name}`}>
           <button className="px-4 py-2 text-sm font-medium bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition-colors">
             View Details
           </button>
+          </Link>
           <button onClick={addToList} disabled={isPending} className="disabled:cursor-not-allowed cursor-pointer px-4 py-2 text-sm font-medium bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
             {isPending ? 'Adding to list...' : 'Add to Wishlist'}
           </button>

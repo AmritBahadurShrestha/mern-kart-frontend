@@ -1,10 +1,32 @@
+import { useParams } from "react-router"
+import ComponentTitle from "../components/common/title-component"
+import { useQuery } from "@tanstack/react-query"
+import { get_by_id } from "../api/product.api"
 
-const DynamicPage = () => {
+const ProductDetailPage = () => {
+
+  const {id} = useParams()
+
+  const {data, isLoading} = useQuery({
+    queryFn: () => {return get_by_id(id ?? '')},
+    queryKey: ['get_product_by_id', id]
+  })
+
+  {
+    isLoading && <div className="flex justify-center items-center w-full h-full">
+      <p className="text-[16px] text-gray-700">Loading...</p>
+    </div>
+  }
+  console.log(data)
+
   return (
-    <div>
-      <h1 className="text-center">Dynamic Page</h1>
+    <div className="min-h-screen px-36">
+      <ComponentTitle
+      title={data?.data.name}
+      sub_title={data?.data.description}
+      />
     </div>
   )
 }
 
-export default DynamicPage
+export default ProductDetailPage

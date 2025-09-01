@@ -1,24 +1,26 @@
 import { CiTrash } from "react-icons/ci";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import type { IWishlist } from "../../types/wishlist.types";
 import { delete_wishlist } from "../../api/wishlist.api";
+import type { IProduct } from "../../types/products.types";
 
 interface IProps {
-  wishlistItem: IWishlist;
+  wishlistItem: IProduct;
 }
 
 const WishListCard: React.FC<IProps> = ({ wishlistItem }) => {
   const queryClient = useQueryClient();
+  console.log("object")
 
-   const { mutate: removeWishlist } = useMutation({
+  console.log(wishlistItem)
+  const { mutate: removeWishlist } = useMutation({
     mutationFn: (id: string) => delete_wishlist(id),
     onSuccess: (response) => {
-      toast.success(response.message || "Removed from wishlist");
+      toast.success(response.message);
       queryClient.invalidateQueries({ queryKey: ["get_wishlist"] });
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to remove");
+      toast.error(error.message);
     },
   });
 
@@ -38,8 +40,8 @@ const WishListCard: React.FC<IProps> = ({ wishlistItem }) => {
       {/* Product Image */}
       <div className="h-64 w-full overflow-hidden">
         <img
-          src={wishlistItem.product.cover_image.path}
-          alt={wishlistItem.product.name}
+          src={wishlistItem.cover_image.path}
+          alt={wishlistItem.name}
           className="w-full h-full object-cover"
         />
       </div>
@@ -47,18 +49,26 @@ const WishListCard: React.FC<IProps> = ({ wishlistItem }) => {
       {/* Product Info */}
       <div className="p-6">
         <h3 className="text-xl font-semibold text-gray-800 truncate">
-          {wishlistItem.product.name}
+          {wishlistItem.name}
         </h3>
         <p className="text-base text-gray-600 mt-2 line-clamp-3">
-          {wishlistItem.product.description}
+          {wishlistItem.description}
         </p>
 
         {/* Price */}
         <div className="mt-4">
           <span className="text-2xl font-bold text-indigo-600">
-            NPR {wishlistItem.product.price}
+            NPR {wishlistItem.price}
           </span>
         </div>
+
+        {/* Buttons */}
+        <div className="flex items-center justify-between mt-6">
+          <button className="cursor-pointer px-4 py-2 text-sm font-medium bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition-colors">
+            View Details
+          </button>
+        </div>
+
       </div>
     </div>
   );

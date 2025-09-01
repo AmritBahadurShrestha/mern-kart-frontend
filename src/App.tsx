@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router'
 import Login from './pages/auth/login'
 import Register from './pages/auth/register'
 import HomePage from './pages/home'
-import DynamicPage from './pages/detail-page'
 import ContactUs from './pages/contact-us'
 import ProductsPage from './pages/products'
 import PageNotFound from './pages/page-not-found'
@@ -12,6 +11,7 @@ import PrivacyPolicy from './pages/privacy-policy'
 import { Toaster } from 'react-hot-toast'
 import ClientLayout from './layouts/client.layout'
 import WishListPage from './pages/wishlist'
+import ProductDetailPage from './pages/detail-page'
 
 function App() {
 
@@ -34,11 +34,11 @@ function App() {
             <Route path='/contact-us' element= { <ContactUs/> }/>
             <Route path='/privacy-policy' element= {<PrivacyPolicy/> }/>
             <Route path='/wishlist' element= {<WishListPage/> }/>
+            <Route path='/product/:id' element= {<ProductDetailPage/> }/>
+            
             
             <Route path='*' element= {<PageNotFound/>}/>
           </Route>
-
-          <Route path='/product/:id' element= { <DynamicPage/> }/>
           
         </Routes>
       </Router>
