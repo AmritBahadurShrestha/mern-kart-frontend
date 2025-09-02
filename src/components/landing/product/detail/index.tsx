@@ -1,3 +1,4 @@
+import ProductList from ".."
 import type { IProduct } from "../../../../types/products.types"
 import Detail from "./detail"
 import ImageCarousel from "./image-carousel"
@@ -18,6 +19,13 @@ const DetailSection:React.FC<IProps> = ({product}) => {
         <div className="col-span-3">
             <Detail product={product}/>
         </div>
+
+        {/* featured products */}
+        <div className="col-span-5">
+          <h1 className="text-2xl text-blue-700">Related Products</h1>
+            <ProductList/>
+        </div>
+
     </div>
   )
 }

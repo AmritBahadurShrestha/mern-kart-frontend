@@ -14,16 +14,15 @@ const ProductList = () => {
   return (
     <div className="mt-6 pb-50">
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <div>
-        {
-          isLoading && <div className="flex justify-center items-center w-full h-full">
+        {isLoading ? (
+          <div className="col-span-full flex justify-center items-center w-full h-full">
             <p className="text-[16px] text-gray-700">Loading...</p>
           </div>
-        }
-      </div>
-      {data?.data.map((product: IProduct) => (
-        <ProductCard key={product._id} product={product} />
-      ))}
+        ) : (
+          data?.data.map((product: IProduct) => (
+            <ProductCard key={product._id} product={product} />
+          ))
+        )}
       </div>
     </div>
   )

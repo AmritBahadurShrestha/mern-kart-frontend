@@ -12,24 +12,20 @@ const WishList = () => {
   console.log(data)
 
   return (
-
-    <div className="mt-6 pb-50">
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-        <div>
-        {
-          isLoading && <div className="flex justify-center items-center w-full h-full">
+    <div className="mt-6 pb-12">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-25">
+        {isLoading ? (
+          <div className="col-span-full flex justify-center items-center w-full h-64">
             <p className="text-[16px] text-gray-700">Loading wishlist...</p>
           </div>
-        }
-      </div>
-      {!isLoading && data?.data?.map((item: IProduct) => (
-        <WishListCard
-          key={item._id}
-          wishlistItem={item}
-        />
-      ))}
+        ) : (
+          data?.data?.map((item: IProduct) => (
+            <WishListCard key={item._id} wishlistItem={item} />
+          ))
+        )}
       </div>
     </div>
+
   )
 };
 
