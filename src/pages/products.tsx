@@ -1,10 +1,16 @@
+import ComponentTitle from "../components/common/title-component"
 
 const ProductsPage = () => {
   return (
-    <main className="min-h-screen">
+    <main className="px-32 py-10">
+
+      <ComponentTitle
+      title= "All Products"
+      sub_title="Explore All Products"
+      />
 
       <div>
-        <h1 className="text-center">Product Page</h1>
+
       </div>
 
     </main>

@@ -1,16 +1,55 @@
-import React from 'react'
+import React, { useState } from 'react'
 import type { IProduct } from '../../../../types/products.types'
 import { IoMdStar } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa6";
 import { CiShoppingTag } from "react-icons/ci";
 import { TbBrandAppgallery } from "react-icons/tb";
-import QuantityBox from './quantitybox';
+import QuantityInput from '../../../common/inputs/quantity-input';
+import { useMutation } from '@tanstack/react-query';
+import { add_to_cart } from '../../../../api/cart.api';
+import toast from 'react-hot-toast';
+import { add_to_wishlist } from '../../../../api/wishlist.api';
 
 interface IProps {
     product: IProduct
 }
 
 const Detail:React.FC<IProps> = ({product}) => {
+
+  const [quantity, setQuantity] = useState(1);
+
+  const {mutate: cart_mutate, isPending: is_cart_Pending} = useMutation({
+    mutationFn: add_to_cart,
+    onSuccess: (response) => {
+      toast.success(response.message ?? 'Product added to cart');
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  // Add to wishlist Mutation
+  const {mutate: wishlist_mutate, isPending: is_wishlist_pending} = useMutation({
+    mutationFn: add_to_wishlist,
+    onSuccess:(response) => {
+      toast.success(response.message)
+
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    }
+  })
+
+  // Mutate Wishlist
+  const handle_wishlist = () => {
+    wishlist_mutate(product._id)
+  }
+
+  //Mutate Cart
+  const handle_cart = () => {
+    cart_mutate({quantity, productId: product._id})
+  }
+
   return (
     <div className='px-6'>
         <div className='flex items-center justify-between mb-4'>
@@ -62,15 +101,23 @@ const Detail:React.FC<IProps> = ({product}) => {
         </div>
         
         {/* Quantity */}
-        <QuantityBox/>
+        <QuantityInput quantity={quantity} setQuantity={setQuantity}/>
         
         {/* buttons */}
         <div className='flex w-full gap-4'>
-          <button className='cursor-pointer w-full bg-violet-700 hover:bg-violet-800 text-white text-lg font-semibold py-2 rounded-lg shadow'>
-            Add To Cart
+          <button
+            onClick={handle_cart}
+            disabled={is_cart_Pending}
+            className= 'disabled:cursor-not-allowed cursor-pointer w-full bg-violet-700 hover:bg-violet-800 text-white text-lg font-semibold py-2 rounded-lg shadow'
+          >
+            {is_cart_Pending ? 'Adding... ' : 'Add To Cart'}
           </button>
 
-          <button className='cursor-pointer w-full bg-pink-600 hover:bg-pink-700 text-white text-lg font-semibold py-2 rounded-lg shadow'>
+          <button
+            onClick={handle_wishlist}
+            disabled={is_cart_Pending || is_wishlist_pending}
+            className='cursor-pointer w-full bg-pink-600 hover:bg-pink-700 text-white text-lg font-semibold py-2 rounded-lg shadow'
+          >
             Add To Wishlist
           </button>
 
