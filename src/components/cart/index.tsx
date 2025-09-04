@@ -15,8 +15,8 @@ const Cart = () => {
         <div className="flex justify-center items-center w-full h-64">
           <p className="text-[16px] text-gray-700">Loading cart...</p>
         </div>
-      ) : data?.items && data.items.length > 0 ? (
-        <CartList cartItems={data.items as ICartItem[]} />
+      ) : data?.data?.items && data.data.items.length > 0 ? (
+        <CartList cartItems={data.data.items as ICartItem[]} />
       ) : (
         <div className="flex justify-center items-center w-full h-64">
           <p className="text-[16px] text-gray-700">Your cart is empty.</p>
