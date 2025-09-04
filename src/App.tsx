@@ -12,6 +12,7 @@ import { Toaster } from 'react-hot-toast'
 import ClientLayout from './layouts/client.layout'
 import WishListPage from './pages/wishlist'
 import ProductDetailPage from './pages/detail-page'
+import ProtectedCartPage from './pages/cart'
 
 function App() {
 
@@ -35,8 +36,7 @@ function App() {
             <Route path='/privacy-policy' element= {<PrivacyPolicy/> }/>
             <Route path='/wishlist' element= {<WishListPage/> }/>
             <Route path='/product/:id' element= {<ProductDetailPage/> }/>
-            
-            
+            <Route path='/cart' element= {<ProtectedCartPage/> }/>
             <Route path='*' element= {<PageNotFound/>}/>
           </Route>
           

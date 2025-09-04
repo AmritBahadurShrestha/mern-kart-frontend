@@ -2,7 +2,7 @@ import ComponentTitle from "../components/common/title-component"
 
 const ProductsPage = () => {
   return (
-    <main className="px-32 py-10">
+    <main className="w-full h-full px-36">
 
       <ComponentTitle
       title= "All Products"
