@@ -13,6 +13,10 @@ import ClientLayout from './layouts/client.layout'
 import WishListPage from './pages/wishlist'
 import ProductDetailPage from './pages/detail-page'
 import ProtectedCartPage from './pages/cart'
+import Dashboard from './pages/admin/dashboard'
+import UserPage from './pages/admin/user'
+import OrderPage from './pages/admin/order'
+import AdminLayout from './layouts/admin.layout'
 
 function App() {
 
@@ -37,6 +41,14 @@ function App() {
             <Route path='/wishlist' element= {<WishListPage/> }/>
             <Route path='/product/:id' element= {<ProductDetailPage/> }/>
             <Route path='/cart' element= {<ProtectedCartPage/> }/>
+            <Route path='*' element= {<PageNotFound/>}/>
+          </Route>
+
+          {/* Admin Routes */}
+          <Route path='/admin' element= {<AdminLayout/>}>
+            <Route path='/admin' element= {<Dashboard/>}/>
+            <Route path='/admin/users' element= {<UserPage/>}/>
+            <Route path='/admin/orders' element= {<OrderPage/>}/>
             <Route path='*' element= {<PageNotFound/>}/>
           </Route>
           
