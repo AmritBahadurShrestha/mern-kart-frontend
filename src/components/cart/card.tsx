@@ -68,7 +68,7 @@ const CartCard: React.FC<IProps> = ({ item }) => {
           <span className="px-3">{item.quantity}</span>
           <button
             onClick={() =>
-              updateQty({ id: item._id, quantity: item.quantity + 1 })
+              updateQty({ id: item.product._id, quantity: item.quantity + 1 })
             }
             className="px-2 py-1 text-gray-600 hover:bg-gray-100"
           >
@@ -76,7 +76,7 @@ const CartCard: React.FC<IProps> = ({ item }) => {
           </button>
         </div>
         <button
-          onClick={() => removeItem(item._id)}
+          onClick={() => removeItem(item.product._id)}
           className="text-red-600 hover:text-red-700"
         >
           <FaTrash size={16} />
