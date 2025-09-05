@@ -42,7 +42,7 @@ export const update_cart_quantity = async ({
   quantity: number;
 }) => {
   try {
-    const response = await api.put(`/cart/${id}`, { quantity });
+    const response = await api.put(`/cart/`, { quantity, productId: id });
     return response.data;
   } catch (error: any) {
     throw error.response?.data || error;
