@@ -26,7 +26,7 @@ export const get_cart = async () => {
 // Remove from cart
 export const remove_from_cart = async (id: string) => {
   try {
-    const response = await api.delete(`/cart/${id}`);
+    const response = await api.delete(`/cart/item/${id}`  );
     return response.data;
   } catch (error: any) {
     throw error.response?.data || error;

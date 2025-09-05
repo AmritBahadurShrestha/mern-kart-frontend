@@ -1,6 +1,7 @@
 import React from 'react'
 import { Outlet } from 'react-router'
 import Sidebar from '../components/admin/sidebar'
+import AdminNavbar from '../components/admin/header/nav'
 
 const AdminLayout = () => {
   return (
@@ -13,7 +14,7 @@ const AdminLayout = () => {
         {/* Nav Bar & Outlet */}
       <div className='flex-1 h-full flex flex-col overflow-auto'>
         <div className='border-gray-300 h-16 shadow'>
-            Nav
+            <AdminNavbar/>
         </div>
 
         <div className='flex-1'>
