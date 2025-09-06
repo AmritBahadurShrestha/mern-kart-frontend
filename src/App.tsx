@@ -19,6 +19,8 @@ import OrderPage from './pages/admin/order'
 import AdminLayout from './layouts/admin.layout'
 import CategoryPage from './pages/admin/category'
 import CreateCategory from './pages/admin/category/add.category'
+import Checkout from './pages/checkout-page'
+import Payment from './pages/payment-page'
 
 function App() {
 
@@ -43,6 +45,8 @@ function App() {
             <Route path='/wishlist' element= {<WishListPage/> }/>
             <Route path='/product/:id' element= {<ProductDetailPage/> }/>
             <Route path='/cart' element= {<ProtectedCartPage/> }/>
+            <Route path='/checkout' element= {<Checkout/> }/>
+            <Route path='/payment' element= {<Payment/> }/>
             <Route path='*' element= {<PageNotFound/>}/>
           </Route>
 

@@ -36,50 +36,54 @@ const CartCard: React.FC<IProps> = ({ item }) => {
   });
 
   return (
-    <div className="flex items-center justify-between bg-white rounded-lg shadow-sm p-4 border">
+    <div className="flex items-center justify-between bg-white rounded-xl shadow-md p-5 border border-gray-100 hover:shadow-lg transition-all duration-200">
       {/* Product */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-5">
         <img
           src={item.product.cover_image.path}
           alt={item.product.name}
-          className="w-16 h-16 object-cover rounded-md"
+          className="w-20 h-20 object-cover rounded-lg border border-gray-200"
         />
         <div>
-          <h3 className="font-medium text-gray-900">{item.product.name}</h3>
-          <div className="flex items-center gap-1 text-indigo-600 font-semibold">
+          <h3 className="font-semibold text-gray-900 text-lg leading-tight">
+            {item.product.name}
+          </h3>
+          <div className="flex items-center gap-1 text-indigo-600 font-bold text-base mt-1">
             <FaRupeeSign size={14} />
-            <span>{item.product.price}</span>
+            <span>{item.product.price.toLocaleString()}</span>
           </div>
         </div>
       </div>
 
       {/* Qty + Remove */}
-      <div className="flex items-center gap-3">
-        <div className="flex items-center border rounded-md">
+      <div className="flex items-center gap-4">
+        <div className="flex items-center border rounded-lg overflow-hidden">
           <button
             onClick={() =>
-              updateQty({ id: item._id, quantity: item.quantity - 1 })
+              updateQty({ id: item.product._id, quantity: item.quantity - 1 })
             }
             disabled={item.quantity <= 1}
-            className="px-2 py-1 text-gray-600 hover:bg-gray-100 disabled:opacity-50"
+            className="cursor-pointer px-3 py-2 text-indigo-600 bg-gray-50 hover:bg-indigo-100 disabled:opacity-40 disabled:cursor-not-allowed border-r"
           >
             <FaMinus size={12} />
           </button>
-          <span className="px-3">{item.quantity}</span>
+          <span className="px-4 py-2 font-medium text-gray-900 bg-white min-w-[40px] text-center border-x-0">
+            {item.quantity}
+          </span>
           <button
             onClick={() =>
               updateQty({ id: item.product._id, quantity: item.quantity + 1 })
             }
-            className="px-2 py-1 text-gray-600 hover:bg-gray-100"
+            className="cursor-pointer px-3 py-2 text-indigo-600 bg-gray-50 hover:bg-indigo-100 border-l"
           >
             <FaPlus size={12} />
           </button>
         </div>
         <button
           onClick={() => removeItem(item.product._id)}
-          className="text-red-600 hover:text-red-700"
+          className="cursor-pointer text-red-500 hover:text-red-600 transition-colors"
         >
-          <FaTrash size={16} />
+          <FaTrash size={18} />
         </button>
       </div>
     </div>

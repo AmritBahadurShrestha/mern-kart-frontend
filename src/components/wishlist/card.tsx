@@ -30,7 +30,7 @@ const WishListCard: React.FC<IProps> = ({ wishlistItem }) => {
     <div className="relative w-full bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group">
       {/* Remove from list button */}
       <div
-        className="absolute top-3 right-3 z-20 opacity-80 hover:opacity-100 transition"
+        className="cursor-pointer absolute top-3 right-3 z-20 opacity-80 hover:opacity-100 transition"
         onClick={() => removeWishlist(wishlistItem._id)}
       >
         <CiTrash
