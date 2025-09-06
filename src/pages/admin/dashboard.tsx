@@ -11,7 +11,7 @@ interface DashboardData {
 }
 
 const Dashboard = () => {
-  const { data, isLoading } = useQuery<DashboardData, Error>({
+  const { data, isLoading } = useQuery<DashboardData>({
     queryFn: fetchDashboard,
     queryKey: ['dashboard']
   })
