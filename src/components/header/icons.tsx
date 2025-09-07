@@ -17,8 +17,8 @@ const IconSection = () => {
     const {mutate, isPending} = useMutation({
         mutationFn: logout,
         onSuccess: (data) => {
-            localStorage.removeItem('user')
-            localStorage.removeItem('token')
+            // localStorage.removeItem('user')
+            // localStorage.removeItem('token')
             setUser(null)
             // setToken(null)
             navigate('/login', {replace: true})
@@ -28,6 +28,7 @@ const IconSection = () => {
         toast.error(error?.message || 'Something went wrong')
         }
     })
+    console.log(user)
 
     const get_user_full_name = (user: any) => {
         return`${user.first_name} ${user.last_name}`

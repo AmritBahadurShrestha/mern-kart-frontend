@@ -1,0 +1,80 @@
+import { FormProvider, useForm } from 'react-hook-form'
+import type { ICategoryData } from '../../../types/category.types';
+import { useMutation } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
+import { postCategory } from '../../../api/category.api';
+import Button from '../../common/button';
+import TextArea from '../../common/inputs/text-area';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { category_schema } from '../../../schema/category.schema';
+import Input from '../../common/inputs/input';
+
+const CategoryForm = () => {
+    const methods = useForm({
+        defaultValues: {
+            name: '',
+            description: ''
+        },
+        resolver:yupResolver(category_schema),
+        mode: 'all'
+    })
+
+    //Mutation
+    const {mutate, isPending} = useMutation({
+        mutationFn: postCategory,
+        onSuccess: (response) => {
+            toast.success(response.message || 'Category Added')
+            methods.reset()
+        },
+        onError: (error) => {
+            toast.error(error.message || 'Something Went Wrong')
+        }
+    })
+
+    const onSubmit = (data: ICategoryData) => {
+        console.log('Category Form', data)
+        mutate(data)
+      };
+
+  return (
+    <div>
+        {/* Hook Form Provider */}
+        <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(onSubmit)} className='flex flex-col gap-4'>
+
+                <div className='flex flex-col gap-6'>
+                    {/* Name Input */}
+                    <Input
+                      name='name'
+                      id='name'
+                      label='Category Name' 
+                      placeholder='Enter category name'
+                      required
+                    />
+                
+                    {/* Description */}
+                    <TextArea
+                    name='description'
+                      id='description'
+                      label ='Description'
+                      placeholder='Enter category description'
+                      required
+                    />
+                </div>
+
+                <div>
+                    <Button
+                        label= 'Submit'
+                        type= 'submit'
+                        isPending={isPending}
+                    />
+                </div>
+
+            </form>
+        </FormProvider>
+      
+    </div>
+  )
+}
+
+export default CategoryForm
