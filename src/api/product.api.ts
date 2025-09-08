@@ -17,3 +17,21 @@ export const get_by_id = async(id:string) => {
         throw error.response.data
     }
 }
+
+export const getAllProduct = async() => {
+    try {
+        const response = await api.get('/product')
+        return response.data
+    } catch (error: any) {
+        throw error.response.data
+    }
+}
+
+export const postProduct = async(data: FormData) => {
+    try {
+        const response = await api.post('/product', data)
+        return response.data
+    } catch (error: any) {
+        throw error.response.data
+    }
+}

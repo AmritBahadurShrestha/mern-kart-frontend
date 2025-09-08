@@ -8,9 +8,10 @@ interface IProps {
     required?: boolean
     placeholder?: string
     name: string
+    multiple?: boolean
 }
 
-const ImageInput:React.FC<IProps> = ({ label, id, required=false, placeholder='Click to upload image', name }) => {
+const ImageInput:React.FC<IProps> = ({ label, id, required=false, multiple=false, placeholder='Click to upload image', name }) => {
     const inputRef = useRef<HTMLInputElement>(null)
     const {control, formState: {errors}} = useFormContext()
     const {field: {onChange, value}} = useController({name, control})
@@ -49,6 +50,7 @@ const ImageInput:React.FC<IProps> = ({ label, id, required=false, placeholder='C
                 type='file'
                 className='hidden'
                 onChange={(e) => {onImageChange(e.target.files)}}
+                multiple
             />
             <p className='text-sm text-gray-600'>{placeholder}</p>  
             {/* error message */}
