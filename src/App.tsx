@@ -21,6 +21,8 @@ import CategoryPage from './pages/admin/category'
 import CreateCategory from './pages/admin/category/add.category'
 import Checkout from './pages/checkout-page'
 import Payment from './pages/payment-page'
+import BrandPage from './pages/admin/brand'
+import CreateBrand from './pages/admin/brand/add.brand'
 
 function App() {
 
@@ -57,6 +59,10 @@ function App() {
             <Route path='/admin/orders' element= {<OrderPage/>}/>
             <Route path='/admin/category' element= {<CategoryPage/>}/>
             <Route path='/admin/category/add' element= {<CreateCategory/>}/>
+
+            {/* Brand */}
+            <Route path='/admin/brand' element= {<BrandPage/>}/>
+            <Route path='/admin/brand/add' element= {<CreateBrand/>}/>
             <Route path='*' element= {<PageNotFound/>}/>
           </Route>
           
