@@ -1,5 +1,5 @@
 import { FormProvider, useForm } from 'react-hook-form'
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import Button from '../../common/button';
 import TextArea from '../../common/inputs/text-area';
@@ -10,6 +10,8 @@ import { product_schema } from '../../../schema/product.schema';
 import { postProduct } from '../../../api/product.api';
 import type { IProductData } from '../../../types/products.types';
 import SelectInput from '../../common/inputs/select.input';
+import { getAllBrand } from '../../../api/brand.api';
+import { getAllCategory } from '../../../api/category.api';
 
 const ProductForm = () => {
     const methods = useForm({
@@ -25,6 +27,17 @@ const ProductForm = () => {
         },
         resolver:yupResolver(product_schema),
         mode: 'all'
+    })
+
+    // Queries for brands and categories
+    const { data: brands, isLoading: brandsLoading } = useQuery({
+        queryFn: getAllBrand,
+        queryKey: ['brands']
+    })
+
+    const { data: categories, isLoading: categoriesLoading } = useQuery({
+        queryFn: getAllCategory,
+        queryKey: ['categories']
     })
 
     //Mutation
@@ -81,8 +94,8 @@ const ProductForm = () => {
                     <Input
                         name='name'
                         id='name'
-                        label='Brand Name' 
-                        placeholder='Enter brand name'
+                        label='Product Name' 
+                        placeholder='Enter product name'
                         required
                     />
 
@@ -91,7 +104,7 @@ const ProductForm = () => {
                         name='description'
                         id='description'
                         label ='Description'
-                        placeholder='Enter Product description'
+                        placeholder='Enter product description'
                         required
                     />
 
@@ -116,8 +129,11 @@ const ProductForm = () => {
                         name="brand"
                         id="brand"
                         label="Brand"
-                        placeholder="Select brand"
-                        options={}
+                        placeholder={brandsLoading ? 'Loading brands...' : 'Select brand'}
+                        options={(brands?.data || []).map((b: any) => ({
+                            label: b.name,
+                            value: b._id,
+                        }))}
                         required
                     />
 
@@ -126,8 +142,11 @@ const ProductForm = () => {
                         name="category"
                         id="category"
                         label="Category"
-                        placeholder="Select category"
-                        options={}
+                        placeholder={categoriesLoading ? 'Loading categories...' : 'Select category'}
+                        options={(categories?.data || []).map((c: any) => ({
+                            label: c.name,
+                            value: c._id,
+                        }))}
                         required
                     />
 

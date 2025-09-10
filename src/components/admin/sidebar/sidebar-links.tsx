@@ -25,7 +25,7 @@ const links = [
     },
     {
         label: 'Products',
-        link: '/admin/products',
+        link: '/admin/product',
         icon: <FaProductHunt />
     },
     {

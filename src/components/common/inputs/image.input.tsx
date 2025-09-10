@@ -17,11 +17,17 @@ const ImageInput:React.FC<IProps> = ({ label, id, required=false, multiple=false
     const {field: {onChange, value}} = useController({name, control})
 
     const onImageChange = (file: FileList | null) => {
-        if(!file) return
-        console.log(file)
-        const images = new Array(...file)
-        console.log(images)
-        onChange(images[0])
+      if(!file) return
+      console.log(file)
+      const images = new Array(...file)
+      console.log(images)
+      if (multiple) {
+          // Pass the array for multiple
+          onChange(images)
+      } else {
+          // Pass a single file
+          onChange(images[0])
+      }
     }
 
   return (
@@ -50,7 +56,7 @@ const ImageInput:React.FC<IProps> = ({ label, id, required=false, multiple=false
                 type='file'
                 className='hidden'
                 onChange={(e) => {onImageChange(e.target.files)}}
-                multiple
+                multiple={multiple}
             />
             <p className='text-sm text-gray-600'>{placeholder}</p>  
             {/* error message */}
@@ -58,14 +64,28 @@ const ImageInput:React.FC<IProps> = ({ label, id, required=false, multiple=false
         </div>
 
         {/* Preview */}
-        {value && <div className='h-25 mt-5 flex gap-2'>
-            <img
-                src={URL.createObjectURL(value)}
-                alt='Image Preview'
-                className='h-full w-25 border border-gray-600 p-1 rounded-md'
-            />
-        </div>}
-      
+        {value && (
+                <div className='h-25 mt-5 flex gap-2 flex-wrap'>
+                    {multiple 
+                        ? value.map((img: File, idx: number) => (
+                            <img
+                                key={idx}
+                                src={URL.createObjectURL(img)}
+                                alt='Image Preview'
+                                className='h-25 w-25 border border-gray-600 p-1 rounded-md object-cover'
+                            />
+                          ))
+                        : (
+                            <img
+                                src={URL.createObjectURL(value)}
+                                alt='Image Preview'
+                                className='h-full w-25 border border-gray-600 p-1 rounded-md object-cover'
+                            />
+                          )
+                    }
+                </div>
+            )}
+
     </div>
   )
 }

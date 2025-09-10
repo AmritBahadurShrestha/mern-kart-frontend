@@ -67,7 +67,7 @@ function App() {
             <Route path='/admin/brand/add' element= {<CreateBrand/>}/>
 
             {/* Product */}
-            <Route path='/admin/products' element= {<ProductPage/>}/>
+            <Route path='/admin/product' element= {<ProductPage/>}/>
             <Route path='/admin/product/add' element= {<CreateProduct/>}/>
 
             <Route path='*' element= {<PageNotFound/>}/>
