@@ -117,6 +117,7 @@ const ProductForm = () => {
                         id="brand"
                         label="Brand"
                         placeholder="Select brand"
+                        options={}
                         required
                     />
 
@@ -126,6 +127,7 @@ const ProductForm = () => {
                         id="category"
                         label="Category"
                         placeholder="Select category"
+                        options={}
                         required
                     />
 
