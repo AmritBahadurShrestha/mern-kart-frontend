@@ -1,5 +1,6 @@
 
 import PageHeader from '../../../components/admin/header/page-header'
+import ProductList from '../../../components/admin/product/list'
 
 const ProductPage = () => {
 
@@ -14,8 +15,7 @@ const ProductPage = () => {
       />
 
       <div className="mt-6 bg-white rounded-xl shadow-md border border-gray-200 p-6 overflow-x-auto">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Products</h2>
-
+        <ProductList/>
       </div>
     </main>
   )

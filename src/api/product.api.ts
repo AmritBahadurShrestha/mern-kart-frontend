@@ -35,3 +35,13 @@ export const postProduct = async(data: FormData) => {
         throw error.response.data
     }
 }
+
+export const deleteProduct = async(id:string) => {
+    try {
+        const response = await api.delete(`/product/${id}`)
+        return response.data
+    } catch (error: any) {
+        console.log(error)
+        throw error.response.data
+    }
+}

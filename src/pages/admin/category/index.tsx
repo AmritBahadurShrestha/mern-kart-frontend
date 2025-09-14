@@ -1,6 +1,6 @@
 
+import CategoryList from '../../../components/admin/category/list'
 import PageHeader from '../../../components/admin/header/page-header'
-
 
 
 const CategoryPage = () => {
@@ -16,8 +16,7 @@ const CategoryPage = () => {
       />
 
       <div className="mt-6 bg-white rounded-xl shadow-md border border-gray-200 p-6 overflow-x-auto">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Categories</h2>
-
+        <CategoryList/>
       </div>
     </main>
   )

@@ -22,7 +22,7 @@ export const postCategory = async(data: ICategoryData) => {
 export const deleteCategory = async(id:string) => {
     try {
         
-        const response = await api.post(`/category`, {id})
+        const response = await api.delete(`/category/${id}`)
         return response.data
     } catch (error: any) {
         console.log(error)
