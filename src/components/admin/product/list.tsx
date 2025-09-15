@@ -11,15 +11,14 @@ import ConfirmationModal from '../../modal/confirmation.modal'
 
 const ProductList = () => {
 
-  const [page, setPage] = useState(1)
-  const perPage = 10
+  // const [page, setPage] = useState(1)
+  // const perPage = 10
 
     const [show, setShow] = useState(false)
     const [selectedProduct, setselectedProduct] = useState(null)
 
     const QueryClient = useQueryClient()
 
-    // Fetch products for the current page
     const {data, isLoading} = useQuery({
         queryFn: getAllProduct,
         queryKey: ['get_all_product']
@@ -172,8 +171,8 @@ const ProductList = () => {
           <Table
             columns={columns}
             data={data?.data}
-            pagination={data?.data.length || 0 }
-            onPageChange={(newPage) => setPage(newPage)}
+            // pagination={data?.data.length || 0 }
+            // onPageChange={(newPage) => setPage(newPage)}
           />
         </div>
       </div>
