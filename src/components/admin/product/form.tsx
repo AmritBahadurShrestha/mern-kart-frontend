@@ -1,5 +1,5 @@
 import { FormProvider, useForm } from 'react-hook-form'
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import Button from '../../common/button';
 import TextArea from '../../common/inputs/text-area';
@@ -7,23 +7,37 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Input from '../../common/inputs/input';
 import ImageInput from '../../common/inputs/image.input';
 import { product_schema } from '../../../schema/product.schema';
-import { postProduct } from '../../../api/product.api';
-import type { IProductData } from '../../../types/products.types';
+import { postProduct, updateProduct } from '../../../api/product.api';
+import type { IProduct, IProductData } from '../../../types/products.types';
 import SelectInput from '../../common/inputs/select.input';
 import { getAllBrand } from '../../../api/brand.api';
 import { getAllCategory } from '../../../api/category.api';
+import { useNavigate } from 'react-router';
 
-const ProductForm = () => {
+interface IProps {
+    data?: IProduct
+}
+
+const ProductForm: React.FC<IProps> = ({ data: product }) => {
+
+    const queryClient = useQueryClient()
+    const navigate = useNavigate()
     const methods = useForm({
         defaultValues: {
-            name: '',
-            description: '',
-            price: 0,
-            stock: 0,
-            size: '',
-            brand: '',
-            category: '',
-            isFeatured: false
+            name: product?.name || '',
+            description: product?.description || '',
+            price: product?.price || 0,
+            stock: product?.stock || 0,
+            size: product?.size || '',
+            brand: typeof product?.brand === 'string' 
+                ? product.brand 
+                : product?.brand?._id || '',
+            category: typeof product?.category === 'string'
+                ? product.category
+                : product?.category?._id || '',
+            isFeatured: product?.isFeatured || false,
+            cover_image: '',
+            images: [],
         },
         resolver:yupResolver(product_schema),
         mode: 'all'
@@ -46,6 +60,18 @@ const ProductForm = () => {
         onSuccess: (response) => {
             toast.success(response.message || 'Product Added')
             methods.reset()
+        },
+        onError: (error) => {
+            toast.error(error.message || 'Something Went Wrong')
+        }
+    })
+
+    const { mutate: updateMutation, isPending: updating } = useMutation({
+        mutationFn: updateProduct,
+        onSuccess: (response) => {
+            toast.success(response.message || 'Product updated')
+            queryClient.invalidateQueries({ queryKey: ['get_product_by_id', product?._id] })
+            navigate('/admin/product')
         },
         onError: (error) => {
             toast.error(error.message || 'Something Went Wrong')
@@ -80,7 +106,11 @@ const ProductForm = () => {
             })
         }
 
-        mutate(formData)
+        if (product) {
+            updateMutation({ formData, _id: product?._id })
+        } else {
+            mutate(formData)
+        }
       };
 
   return (
@@ -194,9 +224,9 @@ const ProductForm = () => {
 
                 <div>
                     <Button
-                        label= 'Submit'
+                        label= {isPending || updating ? "Submitting.." : 'Submit'}
                         type= 'submit'
-                        isPending={isPending}
+                        isPending= {isPending || updating}
                     />
                 </div>
 

@@ -1,9 +1,13 @@
 import PageHeader from '../../../components/admin/header/page-header'
 import CategoryForm from '../../../components/admin/category/form'
+import Helmet from 'react-helmet'
 
 const CreateCategory = () => {
   return (
     <main className='h-full w-full bg-gray-50 p-8'>
+      <Helmet>
+        <title>Create Category</title>
+      </Helmet>
       <PageHeader
         key={'create-category'}
         title='Add New Category'

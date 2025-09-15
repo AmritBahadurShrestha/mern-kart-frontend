@@ -1,9 +1,13 @@
 import PageHeader from '../../../components/admin/header/page-header'
 import BrandForm from '../../../components/admin/brand/form'
+import { Helmet } from 'react-helmet'
 
 const CreateBrand = () => {
   return (
     <main className='h-full w-full bg-gray-50 p-8'>
+      <Helmet>
+        <title>Create Brand</title>
+      </Helmet>
       <PageHeader
         key={'create-brand'}
         title='Add New Brand'

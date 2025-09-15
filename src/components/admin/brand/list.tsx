@@ -5,9 +5,14 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import ActionButtons from '../../common/table/action-button'
 import toast from 'react-hot-toast'
 import { deleteBrand, getAllBrand } from '../../../api/brand.api'
+import { useState } from 'react'
+import ConfirmationModal from '../../modal/confirmation.modal'
 
 
 const BrandList = () => {
+
+  const [show, setShow] = useState(false)
+    const [selectedBrand, setselectedBrand] = useState(null)
 
     const QueryClient = useQueryClient()
 
@@ -22,6 +27,7 @@ const BrandList = () => {
         onSuccess: (response) => {
             toast.success(response.message ?? 'Brand deleted')
             QueryClient.invalidateQueries({queryKey: ['get_all_brand']})
+            setShow(false)
         },
         onError: (error) => {
             toast.error(error.message ?? 'Brand could not deleted')
@@ -75,7 +81,10 @@ const BrandList = () => {
         header: () => <span>Actions</span>,
         footer: info => info.column.id,
         cell: ({row:{original}}) => {
-            return <ActionButtons onDelete={ () => {onDelete(original?._id)}}/>
+            return <ActionButtons edit_link={`/admin/brand/edit/${original?._id}?name=${original.name}`} onDelete={ () => {
+              setselectedBrand(original?._id)
+              setShow(true)
+            }}/>
         }
       }),
     ]
@@ -97,12 +106,15 @@ const BrandList = () => {
     }
 
   return (
-    <div className="h-full w-full bg-white rounded-2xl border-gray-100">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">All Brands</h2>
-      <div className="h-full w-full overflow-x-auto">
-        <Table columns={columns} data={data?.data}/>
+    <>
+      <div className="h-full w-full bg-white rounded-2xl border-gray-100">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6">All Brands</h2>
+        <div className="h-full w-full overflow-x-auto">
+          <Table columns={columns} data={data?.data}/>
+        </div>
       </div>
-    </div>
+      {show && <ConfirmationModal onCancel={() => {setShow(false)}} onConfirm={() => {onDelete(selectedBrand ?? '') }}/>}
+    </>
   )
 }
 

@@ -1,9 +1,13 @@
+import { Helmet } from 'react-helmet'
 import PageHeader from '../../../components/admin/header/page-header'
 import ProductForm from '../../../components/admin/product/form'
 
 const CreateProduct = () => {
   return (
     <main className='h-full w-full bg-gray-50 p-8'>
+      <Helmet>
+        <title>Create Product</title>
+      </Helmet>
       <PageHeader
         key={'create-product'}
         title='Add New Product'

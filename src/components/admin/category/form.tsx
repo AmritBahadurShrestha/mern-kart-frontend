@@ -20,8 +20,8 @@ const CategoryForm: React.FC<IProps> = ({ data: category }) => {
     const navigate = useNavigate()
     const methods = useForm({
         defaultValues: {
-            name: '',
-            description: ''
+            name: category?.name || '',
+            description: category?.description ||''
         },
         resolver:yupResolver(category_schema),
         mode: 'all'

@@ -45,3 +45,22 @@ export const deleteProduct = async(id:string) => {
         throw error.response.data
     }
 }
+
+
+export const getProductById = async(id:string) => {
+    try {
+        const response = await api.get(`/product/${id}`)
+        return response.data
+    } catch (error: any) {
+        throw error.response.data
+    }
+}
+
+export const updateProduct = async({ _id, formData }: { _id: string, formData: FormData }) => {
+  try {
+    const response = await api.put(`/product/${_id}`, formData)
+    return response.data
+  } catch (error: any) {
+    throw error.response.data
+  }
+}

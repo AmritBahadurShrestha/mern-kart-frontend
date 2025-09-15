@@ -1,20 +1,28 @@
 import { FormProvider, useForm } from 'react-hook-form'
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import Button from '../../common/button';
 import TextArea from '../../common/inputs/text-area';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Input from '../../common/inputs/input';
 import { brand_schema } from '../../../schema/brand.schema';
-import { postBrand } from '../../../api/brand.api';
-import type { IBrandData } from '../../../types/brand.types';
+import { postBrand, updateBrand } from '../../../api/brand.api';
+import type { IBrandData, IBrandResponse } from '../../../types/brand.types';
 import ImageInput from '../../common/inputs/image.input';
+import { useNavigate } from 'react-router';
 
-const BrandForm = () => {
+interface IProps {
+    data?: IBrandResponse
+}
+
+const BrandForm: React.FC<IProps> = ({ data: brand }) => {
+
+    const queryClient = useQueryClient()
+    const navigate = useNavigate()
     const methods = useForm({
         defaultValues: {
-            name: '',
-            description: ''
+            name: brand?.name || '',
+            description: brand?.description ||''
         },
         resolver:yupResolver(brand_schema),
         mode: 'all'
@@ -26,6 +34,18 @@ const BrandForm = () => {
         onSuccess: (response) => {
             toast.success(response.message || 'Brand Added')
             methods.reset()
+        },
+        onError: (error) => {
+            toast.error(error.message || 'Something Went Wrong')
+        }
+    })
+
+    const { mutate: updateMutation, isPending: updating } = useMutation({
+        mutationFn: updateBrand,
+        onSuccess: (response) => {
+            toast.success(response.message || 'Brand updated')
+            queryClient.invalidateQueries({ queryKey: ['get_brand_by_id', brand?._id] })
+            navigate('/admin/brand')
         },
         onError: (error) => {
             toast.error(error.message || 'Something Went Wrong')
@@ -44,7 +64,11 @@ const BrandForm = () => {
             formData.append('logo', logo)
         }
 
-        mutate(formData)
+        if (brand) {
+            updateMutation({ formData, _id: brand?._id })
+        } else {
+            mutate(formData)
+        }
       };
 
   return (
@@ -83,9 +107,9 @@ const BrandForm = () => {
 
                 <div>
                     <Button
-                        label= 'Submit'
+                        label= {isPending || updating ? "Submitting.." : 'Submit'}
                         type= 'submit'
-                        isPending={isPending}
+                        isPending={isPending || updating}
                     />
                 </div>
 

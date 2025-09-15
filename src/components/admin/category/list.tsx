@@ -5,9 +5,14 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { deleteCategory, getAllCategory } from '../../../api/category.api'
 import ActionButtons from '../../common/table/action-button'
 import toast from 'react-hot-toast'
+import ConfirmationModal from '../../modal/confirmation.modal'
+import { useState } from 'react'
 
 
 const CategoryList = () => {
+
+  const [show, setShow] = useState(false)
+  const [selectedCategory, setselectedCategory] = useState(null)
 
     const QueryClient = useQueryClient()
 
@@ -22,6 +27,7 @@ const CategoryList = () => {
         onSuccess: (response) => {
             toast.success(response.message ?? 'Category deleted')
             QueryClient.invalidateQueries({queryKey: ['get_all_category']})
+            setShow(false)
         },
         onError: (error) => {
             toast.error(error.message ?? 'Category could not deleted')
@@ -65,7 +71,10 @@ const CategoryList = () => {
         header: () => <span>Actions</span>,
         footer: info => info.column.id,
         cell: ({row:{original}}) => {
-            return <ActionButtons edit_link={`/admin/category/edit/${original?._id}?name=${original.name}`} onDelete={ () => {onDelete(original?._id)}}/>
+            return <ActionButtons edit_link={`/admin/category/edit/${original?._id}?name=${original.name}`} onDelete={ () => {
+              setselectedCategory(original?._id)
+              setShow(true)
+            }}/>
         }
       }),
     ]
@@ -87,12 +96,15 @@ const CategoryList = () => {
     }
 
   return (
-    <div className="h-full w-full bg-white rounded-2xl border-gray-100">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">All Categories</h2>
-      <div className="h-full w-full overflow-x-auto">
-        <Table columns={columns} data={data?.data}/>
+    <>
+      <div className="h-full w-full bg-white rounded-2xl border-gray-100">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6">All Categories</h2>
+        <div className="h-full w-full overflow-x-auto">
+          <Table columns={columns} data={data?.data}/>
+        </div>
       </div>
-    </div>
+      {show && <ConfirmationModal onCancel={() => {setShow(false)}} onConfirm={() => {onDelete(selectedCategory ?? '') }}/>}
+    </>
   )
 }
 
