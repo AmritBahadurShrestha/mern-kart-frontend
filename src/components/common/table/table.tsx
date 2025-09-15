@@ -42,10 +42,6 @@ const Table:React.FC<IProps> = ({ columns, data=[], pagination, onPageChange }) 
     onPageChange?.(page)
   }
 
-  // Calculate item range for display
-  const startItem = pagination ? (pagination.currentPage - 1) * pagination.perPage + 1 : 0
-  const endItem = pagination ? Math.min(startItem + data.length - 1, pagination.total) : 0
-
   return (
     <div className="w-full overflow-hidden rounded-xl shadow-lg border border-gray-200">
       <table className='w-full text-sm text-gray-700'>
