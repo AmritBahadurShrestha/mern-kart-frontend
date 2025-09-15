@@ -65,7 +65,7 @@ const CategoryList = () => {
         header: () => <span>Actions</span>,
         footer: info => info.column.id,
         cell: ({row:{original}}) => {
-            return <ActionButtons onDelete={ () => {onDelete(original?._id)}}/>
+            return <ActionButtons edit_link={`/admin/category/edit/${original?._id}?name=${original.name}`} onDelete={ () => {onDelete(original?._id)}}/>
         }
       }),
     ]

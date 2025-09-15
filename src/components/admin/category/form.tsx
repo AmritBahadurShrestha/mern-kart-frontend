@@ -1,15 +1,23 @@
 import { FormProvider, useForm } from 'react-hook-form'
-import type { ICategoryData } from '../../../types/category.types';
-import { useMutation } from '@tanstack/react-query';
+import type { ICategoryData, ICategoryResponse } from '../../../types/category.types';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { postCategory } from '../../../api/category.api';
+import { postCategory, updateCategory } from '../../../api/category.api';
 import Button from '../../common/button';
 import TextArea from '../../common/inputs/text-area';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { category_schema } from '../../../schema/category.schema';
 import Input from '../../common/inputs/input';
+import { useNavigate } from 'react-router';
 
-const CategoryForm = () => {
+interface IProps {
+    data?: ICategoryResponse
+}
+
+const CategoryForm: React.FC<IProps> = ({ data: category }) => {
+
+    const queryClient = useQueryClient()
+    const navigate = useNavigate()
     const methods = useForm({
         defaultValues: {
             name: '',
@@ -31,9 +39,26 @@ const CategoryForm = () => {
         }
     })
 
+    const { mutate: updateMutation, isPending: updating } = useMutation({
+        mutationFn: updateCategory,
+        onSuccess: (response) => {
+            toast.success(response.message || 'Category updated');
+            queryClient.invalidateQueries({ queryKey: ['get_category_by_id', category?._id] })
+            navigate('/admin/category')
+        },
+        onError: (error) => {
+            toast.error(error.message || 'Something went wrong.')
+        }
+
+    })
+
     const onSubmit = (data: ICategoryData) => {
         console.log('Category Form', data)
-        mutate(data)
+        if (category) {
+            updateMutation({ ...data, _id: category?._id })
+        } else {
+            mutate(data)
+        }
       };
 
   return (
@@ -64,9 +89,9 @@ const CategoryForm = () => {
 
                 <div>
                     <Button
-                        label= 'Submit'
+                        label= {isPending || updating ? "Submitting.." : 'Submit'}
                         type= 'submit'
-                        isPending={isPending}
+                        isPending={isPending || updating}
                     />
                 </div>
 

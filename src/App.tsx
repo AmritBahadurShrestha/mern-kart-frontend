@@ -19,6 +19,7 @@ import OrderPage from './pages/admin/order'
 import AdminLayout from './layouts/admin.layout'
 import CategoryPage from './pages/admin/category'
 import CreateCategory from './pages/admin/category/add.category'
+import UpdateCategory from './pages/admin/category/update.category'
 import Checkout from './pages/checkout-page'
 import Payment from './pages/payment-page'
 import BrandPage from './pages/admin/brand'
@@ -61,6 +62,7 @@ function App() {
             <Route path='/admin/orders' element= {<OrderPage/>}/>
             <Route path='/admin/category' element= {<CategoryPage/>}/>
             <Route path='/admin/category/add' element= {<CreateCategory/>}/>
+            <Route path='/admin/category/edit/:id' element= {<UpdateCategory/>}/>
 
             {/* Brand */}
             <Route path='/admin/brand' element= {<BrandPage/>}/>

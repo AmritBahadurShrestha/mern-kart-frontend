@@ -1,5 +1,5 @@
 import api from '.'
-import type { ICategoryData } from '../types/category.types'
+import type { ICategoryData, ICategoryResponse } from '../types/category.types'
 
 export const getAllCategory = async() => {
     try {
@@ -13,6 +13,24 @@ export const getAllCategory = async() => {
 export const postCategory = async(data: ICategoryData) => {
     try {
         const response = await api.post('/category', data)
+        return response.data
+    } catch (error: any) {
+        throw error.response.data
+    }
+}
+
+export const getCategoryById = async(id:string) => {
+    try {
+        const response = await api.get(`/category/${id}`)
+        return response.data
+    } catch (error: any) {
+        throw error.response.data
+    }
+}
+
+export const updateCategory = async({ _id, ...data } : Partial<ICategoryResponse>) => {
+    try {
+        const response = await api.put(`/category/${_id}`, data)
         return response.data
     } catch (error: any) {
         throw error.response.data
