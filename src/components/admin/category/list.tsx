@@ -103,7 +103,18 @@ const CategoryList = () => {
           <Table columns={columns} data={data?.data}/>
         </div>
       </div>
-      {show && <ConfirmationModal onCancel={() => {setShow(false)}} onConfirm={() => {onDelete(selectedCategory ?? '') }}/>}
+      {show &&
+        <ConfirmationModal
+          title="Delete Confirmation"
+          message="Are you sure you want to delete this item? This action is permanent and cannot be undone."
+          confirmText="Delete"
+          confirmColor="red"
+          onCancel={() => setShow(false)}
+          onConfirm={() => {
+            onDelete(selectedCategory ?? "")
+          }}
+        />
+      }
     </>
   )
 }

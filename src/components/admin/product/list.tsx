@@ -11,8 +11,8 @@ import ConfirmationModal from '../../modal/confirmation.modal'
 
 const ProductList = () => {
 
-  // const [page, setPage] = useState(1)
-  // const perPage = 10
+  const [page, setPage] = useState(1)
+  const perPage = 10
 
     const [show, setShow] = useState(false)
     const [selectedProduct, setselectedProduct] = useState(null)
@@ -20,8 +20,8 @@ const ProductList = () => {
     const QueryClient = useQueryClient()
 
     const {data, isLoading} = useQuery({
-        queryFn: getAllProduct,
-        queryKey: ['get_all_product']
+      queryFn: getAllProduct,
+      queryKey: ['get_all_product', page]
     })
 
     // Delete Mutation
@@ -171,12 +171,23 @@ const ProductList = () => {
           <Table
             columns={columns}
             data={data?.data}
-            // pagination={data?.data.length || 0 }
-            // onPageChange={(newPage) => setPage(newPage)}
+            pagination={data?.pagination} // send pagination from backend
+            onPageChange={setPage}
           />
         </div>
       </div>
-      {show && <ConfirmationModal onCancel={() => {setShow(false)}} onConfirm={() => {onDelete(selectedProduct ?? '') }}/>}
+      {show &&
+        <ConfirmationModal
+          title="Delete Confirmation"
+          message="Are you sure you want to delete this item? This action is permanent and cannot be undone."
+          confirmText="Delete"
+          confirmColor="red"
+          onCancel={() => setShow(false)}
+          onConfirm={() => {
+            onDelete(selectedProduct ?? "")
+          }}
+        />
+      }
     </>
   )
 }

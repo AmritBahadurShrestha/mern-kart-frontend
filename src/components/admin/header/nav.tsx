@@ -7,6 +7,7 @@ import { logout } from '../../../api/auth.api'
 import { useMutation } from '@tanstack/react-query'
 import { IoPersonCircleOutline } from 'react-icons/io5'
 import { AiOutlineLogout } from 'react-icons/ai'
+import ConfirmationModal from '../../modal/confirmation.modal'
 
 const AdminNavbar = () => {
   const { user, setUser } = useAuth()
@@ -28,6 +29,9 @@ const AdminNavbar = () => {
   // Dropdown state
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Logout modal state
+  const [show, setShow] = useState(false)
 
   // Close dropdown if clicked outside
   useEffect(() => {
@@ -88,7 +92,7 @@ const AdminNavbar = () => {
           <div className="flex flex-col">
             <button
               className="flex items-center gap-2 px-4 py-2 hover:bg-indigo-50 transition-colors cursor-pointer"
-              onClick={() => mutate()}
+              onClick={() => setShow(true)}
               disabled={isPending}
             >
               <AiOutlineLogout className="text-red-500" />
@@ -97,6 +101,22 @@ const AdminNavbar = () => {
           </div>
         </div>
       </div>
+
+      {/* Confirmation Modal for Logout */}
+      {show && (
+        <ConfirmationModal
+          title="Logout Confirmation"
+          message="Are you sure you want to log out? You will need to sign in again to access your account."
+          confirmText="Logout"
+          confirmColor="blue"
+          onCancel={() => setShow(false)}
+          onConfirm={() => {
+            mutate() // ⬅️ actual logout
+            setShow(false)
+          }}
+        />
+      )}
+
     </nav>
   )
 }
