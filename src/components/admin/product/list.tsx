@@ -11,8 +11,8 @@ import ConfirmationModal from '../../modal/confirmation.modal'
 
 const ProductList = () => {
 
-  const [page, setPage] = useState(1)
-  const perPage = 10
+    const [page, setPage] = useState(1)
+    const perPage = 5
 
     const [show, setShow] = useState(false)
     const [selectedProduct, setselectedProduct] = useState(null)
@@ -20,7 +20,7 @@ const ProductList = () => {
     const QueryClient = useQueryClient()
 
     const {data, isLoading} = useQuery({
-      queryFn: getAllProduct,
+      queryFn: () => {return getAllProduct(page, perPage)},
       queryKey: ['get_all_product', page]
     })
 

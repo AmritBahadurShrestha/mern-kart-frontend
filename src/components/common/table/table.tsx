@@ -14,12 +14,16 @@ interface IProps {
       totalPages: number
       perPage: number
       total: number
+      next_page: number | null,
+      prev_page: number | null,
+      has_next_page: boolean,
+      has_prev_page: boolean
     }
     onPageChange?: (page: number) => void
 }
 
 const Table:React.FC<IProps> = ({ columns, data=[], pagination, onPageChange }) => {
-
+  console.log(pagination)
   const table = useReactTable({
     data,
     columns,
@@ -27,14 +31,14 @@ const Table:React.FC<IProps> = ({ columns, data=[], pagination, onPageChange }) 
   })
 
   const handlePrev = () => {
-    if (pagination && pagination.currentPage > 1) {
-      onPageChange?.(pagination.currentPage - 1)
+    if (pagination && pagination.has_prev_page) {
+      onPageChange && onPageChange(pagination.prev_page ?? 1)
     }
   }
 
   const handleNext = () => {
-    if (pagination && pagination.currentPage < pagination.totalPages) {
-      onPageChange?.(pagination.currentPage + 1)
+    if (pagination && pagination.has_next_page) {
+      onPageChange && onPageChange(pagination.next_page ?? pagination.totalPages)
     }
   }
 
@@ -82,8 +86,8 @@ const Table:React.FC<IProps> = ({ columns, data=[], pagination, onPageChange }) 
         <div className="flex justify-center items-center gap-2 mt-4">
           <button
             onClick={handlePrev}
-            disabled={pagination.currentPage === 1}
-            className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+            disabled={!pagination.has_prev_page}
+            className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50 cursor-pointer"
           >
             Prev
           </button>
@@ -92,7 +96,7 @@ const Table:React.FC<IProps> = ({ columns, data=[], pagination, onPageChange }) 
               key={i}
               onClick={() => handlePageClick(i + 1)}
               className={`px-3 py-1 rounded hover:bg-gray-300 ${
-                pagination.currentPage === i + 1 ? 'bg-indigo-600 text-white' : 'bg-gray-200'
+                pagination.has_prev_page  ? 'bg-indigo-600 text-white' : 'bg-gray-200'
               }`}
             >
               {i + 1}
@@ -100,8 +104,8 @@ const Table:React.FC<IProps> = ({ columns, data=[], pagination, onPageChange }) 
           ))}
           <button
             onClick={handleNext}
-            disabled={pagination.currentPage === pagination.totalPages}
-            className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+            disabled={!pagination.has_next_page}
+            className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50 cursor-pointer"
           >
             Next
           </button>

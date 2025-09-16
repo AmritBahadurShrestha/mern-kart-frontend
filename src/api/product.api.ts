@@ -18,9 +18,9 @@ export const get_by_id = async(id:string) => {
     }
 }
 
-export const getAllProduct = async() => {
+export const getAllProduct = async(page:number, perPage:number) => {
     try {
-        const response = await api.get('/product')
+        const response = await api.get(`/product?current_page=${page}&per_page=${perPage}`)
         return response.data
     } catch (error: any) {
         throw error.response.data
